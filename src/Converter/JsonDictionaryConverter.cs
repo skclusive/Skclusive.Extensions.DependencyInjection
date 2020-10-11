@@ -9,6 +9,11 @@ namespace Skclusive.Extensions.DependencyInjection
     {
         public override IDictionary<K, V> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            if (reader.TokenType == JsonTokenType.Null)
+            {
+                return null;
+            }
+
             if (reader.TokenType != JsonTokenType.StartObject)
             {
                 throw new JsonException();
@@ -42,6 +47,12 @@ namespace Skclusive.Extensions.DependencyInjection
 
         public override void Write(Utf8JsonWriter writer, IDictionary<K, V> dictionary, JsonSerializerOptions options)
         {
+            if (dictionary == null)
+            {
+                writer.WriteNullValue();
+                return;
+            }
+
             writer.WriteStartObject();
 
             foreach (KeyValuePair<K, V> item in dictionary)
