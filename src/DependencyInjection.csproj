@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <VersionPrefix>3.0.0-preview2</VersionPrefix>
+    <VersionSuffix>$(VersionSuffix)</VersionSuffix>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>Skclusive.Extensions.DependencyInjection</AssemblyName>
+    <PackageId>Skclusive.Extensions.DependencyInjection</PackageId>
+    <RootNamespace>Skclusive.Extensions.DependencyInjection</RootNamespace>
+    <Authors>Skclusive</Authors>
+    <Company>Skclusive</Company>
+    <Copyright>Skclusive</Copyright>
+    <PackageTags>Skclusive DependencyInjection Extensions</PackageTags>
+    <PackageProjectUrl>https://github.com/skclusive/Skclusive.Extensions.DependencyInjection</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/skclusive/Skclusive.Extensions.DependencyInjection</RepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0-rc.*" />
+  </ItemGroup>
+
+</Project>
