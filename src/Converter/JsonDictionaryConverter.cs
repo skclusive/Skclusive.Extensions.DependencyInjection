@@ -19,7 +19,7 @@ namespace Skclusive.Extensions.DependencyInjection
                 throw new JsonException();
             }
 
-            var dictionary = new Dictionary<K, V>();
+            var dictionary = GetSource();
 
             while (reader.Read())
             {
@@ -70,11 +70,18 @@ namespace Skclusive.Extensions.DependencyInjection
             // JsonSerializer.Serialize(writer, new Dictionary<K, V>(dictionary), options);
         }
 
+        protected abstract IDictionary<K, V> GetSource();
+
         protected abstract K ReadKey(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options);
     }
 
     public class JsonStringDictionaryConverter<V> : JsonBaseDictionaryConverter<string, V>
     {
+        protected override IDictionary<string, V> GetSource()
+        {
+            return new Dictionary<string, V>();
+        }
+
         protected override string ReadKey(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             return reader.GetString();
@@ -83,6 +90,11 @@ namespace Skclusive.Extensions.DependencyInjection
 
     public class JsonIntDictionaryConverter<V> : JsonBaseDictionaryConverter<int, V>
     {
+        protected override IDictionary<int, V> GetSource()
+        {
+            return new Dictionary<int, V>();
+        }
+
         protected override int ReadKey(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             return int.Parse(reader.GetString());
@@ -91,6 +103,11 @@ namespace Skclusive.Extensions.DependencyInjection
 
     public class JsonGuidDictionaryConverter<V> : JsonBaseDictionaryConverter<Guid, V>
     {
+        protected override IDictionary<Guid, V> GetSource()
+        {
+            return new Dictionary<Guid, V>();
+        }
+
         protected override Guid ReadKey(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             return Guid.Parse(reader.GetString());
@@ -99,12 +116,21 @@ namespace Skclusive.Extensions.DependencyInjection
 
     public class JsonDictionaryConverter<K, V> : JsonBaseDictionaryConverter<K, V>
     {
-        public JsonDictionaryConverter(Func<string, K> parser)
+        public JsonDictionaryConverter(Func<string, K> parser, Func<IDictionary<K, V>> source)
         {
             Parser = parser;
+
+            Source = source ?? (() => new Dictionary<K, V>());
         }
 
         public Func<string, K> Parser { get; }
+
+        public Func<IDictionary<K, V>> Source { get; }
+
+        protected override IDictionary<K, V> GetSource()
+        {
+            return Source();
+        }
 
         protected override K ReadKey(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
