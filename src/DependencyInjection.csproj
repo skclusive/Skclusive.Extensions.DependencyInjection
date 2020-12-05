@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <VersionPrefix>5.1.2</VersionPrefix>
+    <VersionPrefix>5.2.0</VersionPrefix>
     <VersionSuffix>$(VersionSuffix)</VersionSuffix>
     <TargetFrameworks>netstandard2.0;net5.0</TargetFrameworks>
     <AssemblyName>Skclusive.Extensions.DependencyInjection</AssemblyName>
